@@ -1,12 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"bytes"
 	"crypto/sha256"
 	"crypto/tls"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -15,7 +16,6 @@ import (
 	"os"
 	"strings"
 	"time"
-	"encoding/json"
 )
 
 const PinnedCertHash = "60b87575447dcba2a36b7d11ac09fb24a9db406fee12d2cc90180517616e8a18"
@@ -54,8 +54,8 @@ func main() {
 	}
 	log.Println(string(data))
 	var f interface{}
-err = json.Unmarshal(data, &f)
-fmt.Printf("%v", f.json)
+	err = json.Unmarshal(data, &f)
+	fmt.Printf("%v", f.json)
 }
 
 func PostJSONViaRequest(url string, sendData []byte) ([]byte, error) {
@@ -172,8 +172,6 @@ func httpsClient(url string) ([]byte, error) {
 	return data, nil
 }
 
-// DownloadFile will download a url to a local file. It's efficient because it will
-// write as it downloads and not load the whole file into memory.
 func DownloadFile(filepath string, url string) error {
 	log.Println(filepath)
 	// Create the file
